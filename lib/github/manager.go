@@ -5,17 +5,17 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/nathanielfernandes/stars/ratelimit"
+	rl "github.com/nathanielfernandes/rl"
 )
 
 type Manager struct {
 	c     http.Client
 	Cache Repos
-	Rlm   *ratelimit.RatelimitManager
+	Rlm   *rl.RatelimitManager
 }
 
 func NewManager() Manager {
-	return Manager{c: http.Client{}, Cache: Repos{}, Rlm: ratelimit.NewRatelimitManager(1, 60000)}
+	return Manager{c: http.Client{}, Cache: Repos{}, Rlm: rl.NewRatelimitManager(1, 60000)}
 }
 
 func (m *Manager) Get(w http.ResponseWriter, r *http.Request) {
