@@ -7,9 +7,8 @@ import (
 )
 
 var /* const */ AUTH_TOKEN = os.Getenv("github_token")
-
-const USER = "nathanielfernandes"
-const ENDPOINT = "https://api.github.com/users/" + USER + "/repos?per_page=100"
+var /* const */ USER = os.Getenv("username")
+var /* const */ ENDPOINT = "https://api.github.com/users/" + USER + "/repos?per_page=100"
 
 func FetchRepos(c *http.Client) (UserRepos, error) {
 	req, err := http.NewRequest("GET", ENDPOINT, nil)

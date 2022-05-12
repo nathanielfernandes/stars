@@ -7,10 +7,9 @@ A little service that I use on my [personal site](https://nathanielfernandes.ca)
 set the env var
 
 ```
+username=<your github username>
 github_token=<your github auth token>
 ```
-
-edit your username in `./lib/github/api.go`
 
 run with docker
 
