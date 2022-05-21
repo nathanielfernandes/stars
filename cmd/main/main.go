@@ -12,7 +12,7 @@ func main() {
 	m := github.NewManager()
 	http.HandleFunc("/", m.Get)
 
-	fmt.Printf("Go Get Some\nListening on port 80\n")
+	fmt.Printf("stars\nListening on port 80\n")
 	if err := http.ListenAndServe("0.0.0.0:80", nil); err != nil {
 		log.Fatal(err)
 	}

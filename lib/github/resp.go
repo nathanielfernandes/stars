@@ -8,6 +8,7 @@ type RespRepo struct {
 	Tags        []string `json:"topics"`
 	Forks       int      `json:"forks_count"`
 	Created     string   `json:"created_at"`
+	Page        string   `json:"homepage"`
 }
 
 type UserRepos []RespRepo
@@ -18,12 +19,13 @@ type Repo struct {
 	Forks       int      `json:"forks"`
 	Created     string   `json:"created"`
 	Description string   `json:"description"`
+	Page        string   `json:"page"`
 }
 
 type Repos map[string]Repo
 
 func (r RespRepo) ToData() Repo {
-	return Repo{Stars: r.Stars, Tags: r.Tags, Forks: r.Forks, Created: r.Created, Description: r.Description}
+	return Repo{Stars: r.Stars, Tags: r.Tags, Forks: r.Forks, Created: r.Created, Description: r.Description, Page: r.Page}
 }
 
 func (ur UserRepos) ToRepos() Repos {
