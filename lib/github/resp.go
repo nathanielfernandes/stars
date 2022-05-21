@@ -1,27 +1,29 @@
 package github
 
 type RespRepo struct {
-	Private bool     `json:"private"`
-	Name    string   `json:"name"`
-	Stars   int      `json:"stargazers_count"`
-	Tags    []string `json:"topics"`
-	Forks   int      `json:"forks_count"`
-	Created string   `json:"created_at"`
+	Private     bool     `json:"private"`
+	Name        string   `json:"name"`
+	Description string   `json:"description"`
+	Stars       int      `json:"stargazers_count"`
+	Tags        []string `json:"topics"`
+	Forks       int      `json:"forks_count"`
+	Created     string   `json:"created_at"`
 }
 
 type UserRepos []RespRepo
 
 type Repo struct {
-	Stars   int      `json:"stars"`
-	Tags    []string `json:"tags"`
-	Forks   int      `json:"forks"`
-	Created string   `json:"created"`
+	Stars       int      `json:"stars"`
+	Tags        []string `json:"tags"`
+	Forks       int      `json:"forks"`
+	Created     string   `json:"created"`
+	Description string   `json:"description"`
 }
 
 type Repos map[string]Repo
 
 func (r RespRepo) ToData() Repo {
-	return Repo{Stars: r.Stars, Tags: r.Tags, Forks: r.Forks, Created: r.Created}
+	return Repo{Stars: r.Stars, Tags: r.Tags, Forks: r.Forks, Created: r.Created, Description: r.Description}
 }
 
 func (ur UserRepos) ToRepos() Repos {
