@@ -12,7 +12,7 @@ type RespRepo struct {
 	Tags        []string `json:"topics"`
 	Forks       int      `json:"forks_count"`
 	Created     string   `json:"created_at"`
-	Updated     string   `json:"updated_at"`
+	Updated     string   `json:"pushed_at"`
 	Page        string   `json:"homepage"`
 }
 
