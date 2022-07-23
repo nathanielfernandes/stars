@@ -6,14 +6,14 @@ import (
 
 type RespRepo struct {
 	// Private      bool     `json:"private"`
-	Name         string   `json:"name"`
-	Description  string   `json:"description"`
-	Stars        int      `json:"stargazers_count"`
-	Tags         []string `json:"topics"`
-	Forks        int      `json:"forks_count"`
-	Created      string   `json:"created_at"`
-	Page         string   `json:"homepage"`
-	LanguagesUrl string   `json:"languages_url"`
+	Name        string   `json:"name"`
+	Description string   `json:"description"`
+	Stars       int      `json:"stargazers_count"`
+	Tags        []string `json:"topics"`
+	Forks       int      `json:"forks_count"`
+	Created     string   `json:"created_at"`
+	Updated     string   `json:"updated_at"`
+	Page        string   `json:"homepage"`
 }
 
 type Readme struct {
@@ -27,6 +27,7 @@ type Repo struct {
 	Tags        []string `json:"tags"`
 	Forks       int      `json:"forks"`
 	Created     string   `json:"created"`
+	Updated     string   `json:"updated"`
 	Description string   `json:"description"`
 	Page        string   `json:"page"`
 	Languages   []string `json:"languages"`
@@ -36,7 +37,7 @@ type Repo struct {
 type Repos map[string]Repo
 
 func (r RespRepo) ToData() Repo {
-	return Repo{Stars: r.Stars, Tags: r.Tags, Forks: r.Forks, Created: r.Created, Description: r.Description, Page: r.Page}
+	return Repo{Stars: r.Stars, Tags: r.Tags, Forks: r.Forks, Created: r.Created, Updated: r.Updated, Description: r.Description, Page: r.Page}
 }
 
 func (ur UserRepos) ToRepos(c *http.Client) Repos {
