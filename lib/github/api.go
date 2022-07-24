@@ -37,7 +37,7 @@ func FetchRepos(c *http.Client) (UserRepos, error) {
 	return data, nil
 }
 
-func FetchLangauges(c *http.Client, repo string) ([]string, error) {
+func FetchLangauges(c *http.Client, repo string) ([]Language, error) {
 	req, err := http.NewRequest("GET", "https://api.github.com/repos/"+USER+"/"+repo+"/languages", nil)
 	if err != nil {
 		return nil, err
@@ -60,11 +60,11 @@ func FetchLangauges(c *http.Client, repo string) ([]string, error) {
 		return nil, err
 	}
 
-	langs := make([]string, 0, len(data))
-	for lang := range data {
-		langs = append(langs, lang)
+	langs := make([]Language, 0, len(data))
+	for lang, size := range data {
+		langs = append(langs, Language{Name: lang, Size: size})
 	}
-	sort.Slice(langs, func(i, j int) bool { return data[langs[i]] > data[langs[j]] })
+	sort.Slice(langs, func(i, j int) bool { return langs[i].Size > langs[j].Size })
 
 	return langs, nil
 }

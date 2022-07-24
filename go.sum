@@ -1,2 +1,4 @@
+github.com/julienschmidt/httprouter v1.3.0 h1:U0609e9tgbseu3rBINet9P48AI/D3oJs4dN7jwJOQ1U=
+github.com/julienschmidt/httprouter v1.3.0/go.mod h1:JR6WtHb+2LUe8TCKY3cZOxFyyO8IZAc4RVcycCCAKdM=
 github.com/nathanielfernandes/rl v0.0.0-20220507051132-2bbba27f6e9b h1:EhD3U9k8N1P5cBj7kQNQ9JMHcfvBafV7jh7dwq2OgQY=
 github.com/nathanielfernandes/rl v0.0.0-20220507051132-2bbba27f6e9b/go.mod h1:MJve0LUDeFd56KpZ/rsJcKSsbEicTRudPcC7X+Pfb88=

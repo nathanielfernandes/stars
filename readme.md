@@ -4,7 +4,7 @@ A little service that I use on my [personal site](https://nathanielfernandes.ca)
 
 #### usage
 
-set the env var
+set the env var 
 
 ```
 username=<your github username>
@@ -15,42 +15,94 @@ run with docker
 
 #### endpoints
 
-theres just one endpoint that returns repo stats -> `/`
 
-###### example response (JSON)
+`GET /list` (sorted by last updated)
+```json
+[
+   {
+      "name": "stars",
+      "stars": 1,
+      "tags": [],
+      "forks": 1,
+      "created": 1651899768, // Unix Seconds
+      "updated": 1658610278, // Unix Seconds
+      "description": "A little service that I use on my personal site to get live repo stats without worrying about vistors being ratelimited by github.",
+      "page": "https://stars.ncp.nathanferns.xyz/",
+      "languages": [
+         {
+            "name": "Go",
+            "size": 4540 // bytes
+         },
+         {
+            "name": "Dockerfile",
+            "size": 186 // bytes
+         },
+         {
+            "name": "Makefile",
+            "size": 46 // bytes
+         }
+      ],
+      "is_fork": false
+   },
+   ...
+]
+```
 
+`GET /map`
 ```json
 {
-  "lingo": {
-    "stars": 38,
-    "tags": ["charm", "cli", "golang", "tokei"],
-    "forks": 1,
-    "created": "2022-02-23T01:04:53Z"
-  },
-  "HamoodBot": {
-    "stars": 13,
-    "tags": ["chess", "discord-bot", "hamood", "math", "meme"],
-    "forks": 2,
-    "created": "2020-07-06T20:39:02Z"
-  },
-  "Rustacean-Tracing": {
-    "stars": 7,
-    "tags": [],
-    "forks": 0,
-    "created": "2021-08-21T00:53:34Z"
-  },
-  "chirp": {
-    "stars": 6,
-    "tags": ["chip8", "emulator", "macroquad"],
-    "forks": 0,
-    "created": "2022-04-21T05:12:27Z"
-  },
+   "stars": {
+      "stars": 1,
+      "tags": [],
+      "forks": 1,
+      "created": 1651899768, // Unix Seconds
+      "updated": 1658610278, // Unix Seconds
+      "description": "A little service that I use on my personal site to get live repo stats without worrying about vistors being ratelimited by github.",
+      "page": "https://stars.ncp.nathanferns.xyz/",
+      "languages": [
+         {
+            "name": "Go",
+            "size": 4540 // bytes
+         },
+         {
+            "name": "Dockerfile",
+            "size": 186 // bytes
+         },
+         {
+            "name": "Makefile",
+            "size": 46 // bytes
+         }
+      ],
+      "is_fork": false
+   },
+   ...
+}
+```
 
-  "mime": {
-    "stars": 11,
-    "tags": ["meme-api", "meme-generator", "memes"],
-    "forks": 0,
-    "created": "2022-03-27T04:18:13Z"
-  }
+`GET /repos/:name`
+```json
+{
+  "stars": 1,
+  "tags": [],
+  "forks": 1,
+  "created": 1651899768, // Unix Seconds
+  "updated": 1658610278, // Unix Seconds
+  "description": "A little service that I use on my personal site to get live repo stats without worrying about vistors being ratelimited by github.",
+  "page": "https://stars.ncp.nathanferns.xyz/",
+  "languages": [
+      {
+        "name": "Go",
+        "size": 4540 // bytes
+      },
+      {
+        "name": "Dockerfile",
+        "size": 186 // bytes
+      },
+      {
+        "name": "Makefile",
+        "size": 46 // bytes
+      }
+  ],
+  "is_fork": false
 }
 ```
