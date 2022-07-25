@@ -51,7 +51,7 @@ type Repos struct {
 func (r RespRepo) ToData() Repo {
 	created, _ := time.Parse("2006-01-02T15:04:05Z", r.Created)
 	updated, _ := time.Parse("2006-01-02T15:04:05Z", r.Updated)
-	return Repo{Stars: r.Stars, Tags: r.Tags, Forks: r.Forks, Created: created.Unix(), Updated: updated.Unix(), Description: r.Description, Page: r.Page, IsFork: r.IsFork}
+	return Repo{Stars: r.Stars, Tags: r.Tags, Forks: r.Forks, Created: created.UnixMilli(), Updated: updated.UnixMilli(), Description: r.Description, Page: r.Page, IsFork: r.IsFork}
 }
 
 func addLangs(c *http.Client, wg *sync.WaitGroup, name string, index int, m map[string]Repo, l []Repo) {

@@ -24,8 +24,8 @@ run with docker
       "stars": 1,
       "tags": [],
       "forks": 1,
-      "created": 1651899768, // Unix Seconds
-      "updated": 1658610278, // Unix Seconds
+      "created": 1651899768000, // Unix Miliseconds
+      "updated": 1658610278000, // Unix Miliseconds
       "description": "A little service that I use on my personal site to get live repo stats without worrying about vistors being ratelimited by github.",
       "page": "https://stars.ncp.nathanferns.xyz/",
       "languages": [
@@ -55,8 +55,8 @@ run with docker
       "stars": 1,
       "tags": [],
       "forks": 1,
-      "created": 1651899768, // Unix Seconds
-      "updated": 1658610278, // Unix Seconds
+      "created": 1651899768000, // Unix Miliseconds
+      "updated": 1658610278000, // Unix Miliseconds
       "description": "A little service that I use on my personal site to get live repo stats without worrying about vistors being ratelimited by github.",
       "page": "https://stars.ncp.nathanferns.xyz/",
       "languages": [
@@ -85,8 +85,8 @@ run with docker
   "stars": 1,
   "tags": [],
   "forks": 1,
-  "created": 1651899768, // Unix Seconds
-  "updated": 1658610278, // Unix Seconds
+  "created": 1651899768000, // Unix Miliseconds
+  "updated": 1658610278000, // Unix Miliseconds
   "description": "A little service that I use on my personal site to get live repo stats without worrying about vistors being ratelimited by github.",
   "page": "https://stars.ncp.nathanferns.xyz/",
   "languages": [
