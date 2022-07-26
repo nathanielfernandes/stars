@@ -9,10 +9,9 @@ import (
 
 var /* const */ AUTH_TOKEN = os.Getenv("github_token")
 var /* const */ USER = os.Getenv("username")
-var /* const */ ENDPOINT = "https://api.github.com/users/" + USER + "/repos?per_page=100&visibility=public"
 
-func FetchRepos(c *http.Client) (UserRepos, error) {
-	req, err := http.NewRequest("GET", ENDPOINT, nil)
+func FetchRepos(c *http.Client, user string) (UserRepos, error) {
+	req, err := http.NewRequest("GET", "https://api.github.com/users/"+user+"/repos?per_page=100&visibility=public", nil)
 	if err != nil {
 		return UserRepos{}, nil
 	}
@@ -37,8 +36,8 @@ func FetchRepos(c *http.Client) (UserRepos, error) {
 	return data, nil
 }
 
-func FetchLangauges(c *http.Client, repo string) ([]Language, error) {
-	req, err := http.NewRequest("GET", "https://api.github.com/repos/"+USER+"/"+repo+"/languages", nil)
+func FetchLangauges(c *http.Client, lang_url string) ([]Language, error) {
+	req, err := http.NewRequest("GET", lang_url, nil)
 	if err != nil {
 		return nil, err
 	}

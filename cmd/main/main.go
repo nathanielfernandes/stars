@@ -13,10 +13,10 @@ func main() {
 	m := github.NewManager()
 
 	router := httprouter.New()
-	router.GET("/list", m.GetAllList)
-	router.GET("/map", m.GetAllMap)
+	router.GET("/:username/list", m.GetAllList)
+	router.GET("/:username/map", m.GetAllMap)
 
-	router.GET("/repos/:repo", m.Get)
+	router.GET("/:username/repos/:repo", m.Get)
 
 	fmt.Printf("stars\nListening on port 80\n")
 	if err := http.ListenAndServe("0.0.0.0:80", router); err != nil {

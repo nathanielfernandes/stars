@@ -8,27 +8,26 @@ import (
 	rl "github.com/nathanielfernandes/rl"
 )
 
-var EMPTY bool = true
 var repo_rlm = rl.NewRatelimitManager(1, 1000*60*60)
 
-func (m *Manager) updateCache() {
-	repos, err := FetchRepos(&m.c)
+func (m *Manager) updateCache(user string) {
+	repos, err := FetchRepos(&m.c, user)
 	fmt.Println("FRESH GET")
 	if err == nil {
-		m.Cache = repos.ToRepos(&m.c)
+		m.Cache[user] = repos.ToRepos(&m.c)
 		fmt.Println("GOT")
 	} else {
 		fmt.Println(err)
 	}
 }
 
-func (m *Manager) CheckUpdate() {
-	if !repo_rlm.IsRatelimited("GENERIC") {
-		if EMPTY {
-			m.updateCache()
-			EMPTY = false
+func (m *Manager) CheckUpdate(user string) {
+	if !repo_rlm.IsRatelimited(user) {
+		if !ALLOWED_USERS[user] {
+			m.updateCache(user)
+			ALLOWED_USERS[user] = true
 		} else {
-			go m.updateCache()
+			go m.updateCache(user)
 		}
 	}
 }

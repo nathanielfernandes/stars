@@ -8,15 +8,16 @@ import (
 )
 
 type RespRepo struct {
-	Name        string   `json:"name"`
-	IsFork      bool     `json:"fork"`
-	Description string   `json:"description"`
-	Stars       int      `json:"stargazers_count"`
-	Tags        []string `json:"topics"`
-	Forks       int      `json:"forks_count"`
-	Created     string   `json:"created_at"`
-	Updated     string   `json:"pushed_at"`
-	Page        string   `json:"homepage"`
+	Name         string   `json:"name"`
+	IsFork       bool     `json:"fork"`
+	Description  string   `json:"description"`
+	Stars        int      `json:"stargazers_count"`
+	Tags         []string `json:"topics"`
+	Forks        int      `json:"forks_count"`
+	Created      string   `json:"created_at"`
+	Updated      string   `json:"pushed_at"`
+	Page         string   `json:"homepage"`
+	LanguagesUrl string   `json:"languages_url"`
 }
 
 type Readme struct {
@@ -54,10 +55,10 @@ func (r RespRepo) ToData() Repo {
 	return Repo{Stars: r.Stars, Tags: r.Tags, Forks: r.Forks, Created: created.UnixMilli(), Updated: updated.UnixMilli(), Description: r.Description, Page: r.Page, IsFork: r.IsFork}
 }
 
-func addLangs(c *http.Client, wg *sync.WaitGroup, name string, index int, m map[string]Repo, l []Repo) {
+func addLangs(c *http.Client, wg *sync.WaitGroup, url string, name string, index int, m map[string]Repo, l []Repo) {
 	defer wg.Done()
 
-	if langs, err := FetchLangauges(c, name); err == nil {
+	if langs, err := FetchLangauges(c, url); err == nil {
 		r := m[name]
 		r.Languages = langs
 		m[name] = r
@@ -79,7 +80,7 @@ func (ur UserRepos) ToRepos(c *http.Client) Repos {
 		r.Name = repo.Name
 		l = append(l, r)
 
-		go addLangs(c, wg, repo.Name, i, m, l)
+		go addLangs(c, wg, repo.LanguagesUrl, repo.Name, i, m, l)
 	}
 
 	wg.Wait()
