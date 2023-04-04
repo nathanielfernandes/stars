@@ -109,9 +109,10 @@ func (ur UserRepos) ToRepos(c *http.Client) Repos {
 	return Repos{Map: m, List: l}
 }
 
-func GetUsedLanguages(l []Repo, forks bool, exclude_repos map[string]bool, exclude_langs map[string]bool) []Language {
+func GetUsedLanguages(l []Repo, forks bool, exclude_repos map[string]bool, exclude_langs map[string]bool, threshold float64) []Language {
 	langs := make(map[string]int)
 
+	total := 0
 	for _, r := range l {
 		if exclude_repos[r.Name] {
 			continue
@@ -127,11 +128,16 @@ func GetUsedLanguages(l []Repo, forks bool, exclude_repos map[string]bool, exclu
 			}
 
 			langs[lang.Name] += lang.Size
+			total += lang.Size
 		}
 	}
 
 	languages := make([]Language, 0, len(langs))
 	for name, size := range langs {
+		if float64(size)/float64(total) < threshold {
+			continue
+		}
+
 		languages = append(languages, Language{Name: name, Size: size})
 	}
 

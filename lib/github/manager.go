@@ -68,7 +68,7 @@ func (m *Manager) Get(w http.ResponseWriter, r *http.Request, p httprouter.Param
 	}
 }
 
-func GetFilterOptions(q url.Values) (bool, map[string]bool, map[string]bool) {
+func GetFilterOptions(q url.Values) (bool, map[string]bool, map[string]bool, float64) {
 	allow_forks := q.Get("allow_forks")
 	allow_forks_bool := false
 	if allow_forks == "true" {
@@ -91,7 +91,13 @@ func GetFilterOptions(q url.Values) (bool, map[string]bool, map[string]bool) {
 		}
 	}
 
-	return allow_forks_bool, excluded_repos_map, excluded_languages_map
+	threshold := q.Get("threshold")
+	threshold_float := 0.0
+	if threshold != "" {
+		fmt.Sscanf(threshold, "%f", &threshold_float)
+	}
+
+	return allow_forks_bool, excluded_repos_map, excluded_languages_map, threshold_float
 }
 
 func (m *Manager) GetUsedLanguages(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
@@ -99,8 +105,8 @@ func (m *Manager) GetUsedLanguages(w http.ResponseWriter, r *http.Request, p htt
 	if _, ok := ALLOWED_USERS[user]; ok {
 		m.CheckUpdate(user)
 		if rep, ok := m.Cache[user]; ok {
-			allow_forks, excluded_repos, excluded_languages := GetFilterOptions(r.URL.Query())
-			writeJson(w, GetUsedLanguages(rep.List, allow_forks, excluded_repos, excluded_languages))
+			allow_forks, excluded_repos, excluded_languages, threshold := GetFilterOptions(r.URL.Query())
+			writeJson(w, GetUsedLanguages(rep.List, allow_forks, excluded_repos, excluded_languages, threshold))
 		} else {
 			writeJson(w, nil)
 		}
@@ -146,8 +152,8 @@ func (m *Manager) GetImage(w http.ResponseWriter, r *http.Request, p httprouter.
 		m.CheckUpdate(user)
 		if rep, ok := m.Cache[user]; ok {
 			q := r.URL.Query()
-			allow_forks, excluded_repos, excluded_languages := GetFilterOptions(q)
-			languages := GetUsedLanguages(rep.List, allow_forks, excluded_repos, excluded_languages)
+			allow_forks, excluded_repos, excluded_languages, threshold := GetFilterOptions(q)
+			languages := GetUsedLanguages(rep.List, allow_forks, excluded_repos, excluded_languages, threshold)
 
 			bgcolor, outline, textcolor, titlecolor := GetColorOptions(q)
 			im, err := GenImage(&m.c, languages, bgcolor, outline, textcolor, titlecolor)
