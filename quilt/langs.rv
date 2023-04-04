@@ -1,0 +1,79 @@
+let (w, h) = @Dimensions()
+let stroke = 1.2
+let pad = 15
+
+@DrawRoundedRectangle(stroke / 2, stroke / 2 , w - stroke, h - stroke, 5)
+
+@SetColor(bgcolor)
+@FillPreserve()
+
+@SetStrokeWidth(stroke)
+@SetColor(outline)
+@Stroke()
+
+
+@SetColor(titlecolor)
+@SetFontSize(30)
+@SetFont("ggsans-bold")
+@DrawString("Most Used Languages", pad, pad - 5)
+@Fill()
+
+
+with @PushRelative(pad, pad + 30, w - pad * 2, h) {
+    let mw = @Width()
+
+    @DrawRoundedRectangle(0, 0, mw, 15, 2)
+    @Clip()
+
+    let offset = 0
+    for i in 0 : @len(langs) {
+        let [_, per, color] = @get(langs, i)
+        let bw = mw * per
+
+        @DrawRectangle(offset, 0, bw, 15)
+        @SetColor(color)
+        @Fill()    
+
+        offset = offset + bw
+    }
+
+    with @PushRelative(10, 35, mw - 20, h) {
+        @SetFont("ggsans-semibold")
+        @SetFontSize(18)
+
+
+        let swap_at = @len(langs) / 2
+        if swap_at % 2 != 0 {
+            swap_at = swap_at - 1
+        }
+
+        let offsetx = 0
+        let offsety = 0
+        let ax = 0.0
+        let o = 12
+
+        for i in 0 : @len(langs) {
+            let [name, per, color] = @get(langs, i)
+
+            @SetColor(color)
+            @DrawCircle(offsetx, offsety, 6)
+            @Fill()
+
+
+            @SetColor(textcolor)
+            @DrawStringAnchored(name .. " " .. @fix(per * 100, 1) .. "%", offsetx + o, offsety - 9, ax, 0.0)
+            @Fill()
+
+            offsety = offsety + 25
+
+            if i == swap_at { 
+                offsety = 0
+                offsetx = mw - 20
+                o = -12
+                ax = 1.0
+            }
+        }
+    }
+}
+
+

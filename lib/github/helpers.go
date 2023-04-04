@@ -1,6 +1,7 @@
 package github
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -33,13 +34,25 @@ func (m *Manager) CheckUpdate(user string) {
 }
 
 func addHeaders(w http.ResponseWriter) {
-	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 }
 
 func writeJson(w http.ResponseWriter, data interface{}) {
 	addHeaders(w)
+	w.Header().Set("Content-Type", "application/json")
 	json, _ := json.MarshalIndent(data, "", "   ")
 	w.Write(json)
+}
+
+func imageResponse(w http.ResponseWriter, buf *bytes.Buffer) {
+	if buf == nil {
+		fmt.Println("buf is nil")
+		w.WriteHeader(404)
+		return
+	}
+
+	addHeaders(w)
+	w.Header().Set("Content-Type", "image/png")
+	w.Write(buf.Bytes())
 }
