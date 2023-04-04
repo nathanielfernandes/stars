@@ -53,8 +53,10 @@ func GenImage(c *http.Client, langs []Language, bgcolor, outline, textcolor, tit
 	}
 	literal += "]"
 
+	h := ((len(langs) - 1) / 2) * 25
+
 	payload := RunPayload{
-		Size: []int{300, 300},
+		Size: []int{300, 100 + h},
 		Files: []File{
 			{
 				Name: "main",

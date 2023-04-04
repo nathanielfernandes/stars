@@ -43,9 +43,10 @@ with @PushRelative(pad, pad + 30, w - pad * 2, h) {
 
 
         let swap_at = @len(langs) / 2
-        if swap_at % 2 != 0 {
+        if @len(langs) % 2 == 0 {
             swap_at = swap_at - 1
         }
+
 
         let offsetx = 0
         let offsety = 0
