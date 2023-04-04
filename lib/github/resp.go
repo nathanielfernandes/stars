@@ -134,7 +134,7 @@ func GetUsedLanguages(l []Repo, forks bool, exclude_repos map[string]bool, exclu
 
 	languages := make([]Language, 0, len(langs))
 	for name, size := range langs {
-		if float64(size)/float64(total) < threshold {
+		if float64(size)/float64(total)*100 < threshold {
 			continue
 		}
 
