@@ -1,4 +1,4 @@
-let (w, h) = @Dimensions()
+let w, h = @Dimensions()
 let stroke = 1.2
 let pad = 15
 
@@ -27,7 +27,7 @@ with @PushRelative(pad, pad + 30, w - pad * 2, h) {
 
     let offset = 0
     for i in 0 : @len(langs) {
-        let [_, per, color] = @get(langs, i)
+        let _, per, color = @get(langs, i)
         let bw = mw * per
 
         @DrawRectangle(offset, 0, bw, 15)
@@ -41,12 +41,10 @@ with @PushRelative(pad, pad + 30, w - pad * 2, h) {
         @SetFont("ggsans-semibold")
         @SetFontSize(18)
 
-
         let swap_at = @len(langs) / 2
         if @len(langs) % 2 == 0 {
             swap_at = swap_at - 1
         }
-
 
         let offsetx = 0
         let offsety = 0
@@ -54,7 +52,7 @@ with @PushRelative(pad, pad + 30, w - pad * 2, h) {
         let o = 12
 
         for i in 0 : @len(langs) {
-            let [name, per, color] = @get(langs, i)
+            let name, per, color = @get(langs, i)
 
             @SetColor(color)
             @DrawCircle(offsetx, offsety, 6)
