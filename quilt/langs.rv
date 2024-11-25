@@ -60,6 +60,7 @@ with @PushRelative(pad, pad + 30, w - pad * 2, h) {
 
 
             @SetColor(textcolor)
+            name = @replace(name, "CodeQL", "Quilt")
             @DrawStringAnchored(name .. " " .. @fix(per * 100, 1) .. "%", offsetx + o, offsety - 9, ax, 0.0)
             @Fill()
 

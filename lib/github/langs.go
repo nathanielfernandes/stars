@@ -1467,4 +1467,17 @@ var /* const */ LANGUAGE_IDENTIFIERS = map[string]LanguageIdentifier{
 		},
 		"#9542f5",
 	},
+	"quilt": {
+		[]string{
+			"Quilt",
+			"quilt",
+		},
+		[]string{
+			".ql",
+		},
+		[]string{
+			"",
+		},
+		"#d66eff",
+	},
 }
