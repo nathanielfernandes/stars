@@ -206,6 +206,7 @@ var /* const */ LANGUAGE_IDENTIFIERS = map[string]LanguageIdentifier{
 	"cuda-cpp": {
 		[]string{
 			"CUDA C++",
+			"Cuda",
 		},
 		[]string{
 			".cu",
@@ -1058,6 +1059,7 @@ var /* const */ LANGUAGE_IDENTIFIERS = map[string]LanguageIdentifier{
 	"sql": {
 		[]string{
 			"SQL",
+			"PLpgSQL",
 		},
 		[]string{
 			".sql",
@@ -1469,6 +1471,7 @@ var /* const */ LANGUAGE_IDENTIFIERS = map[string]LanguageIdentifier{
 	},
 	"quilt": {
 		[]string{
+			"CodeQL",
 			"Quilt",
 			"quilt",
 		},
