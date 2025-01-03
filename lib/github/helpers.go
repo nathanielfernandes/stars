@@ -56,3 +56,15 @@ func imageResponse(w http.ResponseWriter, buf *bytes.Buffer) {
 	w.Header().Set("Content-Type", "image/png")
 	w.Write(buf.Bytes())
 }
+
+func gifResponse(w http.ResponseWriter, buf *bytes.Buffer) {
+	if buf == nil {
+		fmt.Println("buf is nil")
+		w.WriteHeader(404)
+		return
+	}
+
+	addHeaders(w)
+	w.Header().Set("Content-Type", "image/gif")
+	w.Write(buf.Bytes())
+}

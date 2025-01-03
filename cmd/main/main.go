@@ -17,6 +17,7 @@ func main() {
 	router.GET("/:username/map", m.GetAllMap)
 	router.GET("/:username/langs", m.GetUsedLanguages)
 	router.GET("/:username/image", m.GetImage)
+	router.GET("/:username/gif", m.GetGif)
 
 	router.GET("/:username/repos/:repo", m.Get)
 

@@ -172,3 +172,30 @@ func (m *Manager) GetImage(w http.ResponseWriter, r *http.Request, p httprouter.
 		writeJson(w, UNALLOWED_USER)
 	}
 }
+
+func (m *Manager) GetGif(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	user := p.ByName("username")
+	if _, ok := ALLOWED_USERS[user]; ok {
+		m.CheckUpdate(user)
+		if rep, ok := m.Cache[user]; ok {
+			q := r.URL.Query()
+			allow_forks, excluded_repos, excluded_languages, threshold := GetFilterOptions(q)
+			languages := GetUsedLanguages(rep.List, allow_forks, excluded_repos, excluded_languages, threshold)
+
+			bgcolor, outline, textcolor, titlecolor := GetColorOptions(q)
+			im, err := GenGif(&m.c, languages, bgcolor, outline, textcolor, titlecolor)
+
+			if err != nil {
+				fmt.Println(err)
+				w.WriteHeader(500)
+			} else {
+				gifResponse(w, im)
+			}
+		} else {
+			fmt.Println("404")
+			w.WriteHeader(404)
+		}
+	} else {
+		writeJson(w, UNALLOWED_USER)
+	}
+}

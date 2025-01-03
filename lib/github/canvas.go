@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 )
@@ -12,6 +13,11 @@ type RunPayload struct {
 	Size   []int   `json:"size"`
 	Files  []File  `json:"files"`
 	Assets []Asset `json:"assets"`
+
+	Frames int  `json:"frames"`
+	Repeat int  `json:"repeat"`
+	Looped bool `json:"looped"`
+	Delay  int  `json:"delay"`
 }
 
 type File struct {
@@ -34,14 +40,14 @@ type Asset interface{}
 var /* const */ API = os.Getenv("api_endpoint")
 var /* const */ SECRET = os.Getenv("canvas_secret")
 var /* const */ LANGS_CODE = func() string {
-	dat, err := os.ReadFile("./quilt/langs.rv")
+	dat, err := os.ReadFile("./quilt/langs.ql")
 	if err != nil {
 		panic(err)
 	}
 	return string(dat)
 }()
 
-func GenImage(c *http.Client, langs []Language, bgcolor, outline, textcolor, titlecolor string) (*bytes.Buffer, error) {
+func GenPayload(c *http.Client, langs []Language, bgcolor, outline, textcolor, titlecolor string) RunPayload {
 	total := 0.0
 	for _, lang := range langs {
 		total += float64(lang.Size)
@@ -55,7 +61,7 @@ func GenImage(c *http.Client, langs []Language, bgcolor, outline, textcolor, tit
 
 	h := ((len(langs) - 1) / 2) * 25
 
-	payload := RunPayload{
+	return RunPayload{
 		Size: []int{300, 100 + h},
 		Files: []File{
 			{
@@ -86,8 +92,25 @@ func GenImage(c *http.Client, langs []Language, bgcolor, outline, textcolor, tit
 			},
 		},
 	}
+}
 
-	jsonBytes, err := json.Marshal(payload)
+func GenImage(c *http.Client, langs []Language, bgcolor, outline, textcolor, titlecolor string) (*bytes.Buffer, error) {
+	payload := GenPayload(c, langs, bgcolor, outline, textcolor, titlecolor)
+	return payload.Run(c)
+}
+
+func GenGif(c *http.Client, langs []Language, bgcolor, outline, textcolor, titlecolor string) (*bytes.Buffer, error) {
+	payload := GenPayload(c, langs, bgcolor, outline, textcolor, titlecolor)
+
+	payload.Frames = 100
+	payload.Repeat = 0
+	payload.Delay = 20
+
+	return payload.Run(c)
+}
+
+func (p *RunPayload) Run(c *http.Client) (*bytes.Buffer, error) {
+	jsonBytes, err := json.Marshal(p)
 	if err != nil {
 		return nil, err
 	}
@@ -102,15 +125,20 @@ func GenImage(c *http.Client, langs []Language, bgcolor, outline, textcolor, tit
 	}
 
 	res, err := c.Do(req)
-
 	if err != nil {
 		return nil, err
 	}
+
 	defer res.Body.Close()
 
 	if res.StatusCode != 200 {
-		fmt.Println(res.StatusCode)
-		return nil, err
+		bodyBytes, err := io.ReadAll(res.Body)
+		if err != nil {
+			return nil, err // or log the error
+		}
+		bodyString := string(bodyBytes)
+		fmt.Println(bodyString) // Print the response body as a string
+		return nil, fmt.Errorf("unexpected status code: %d", res.StatusCode)
 	}
 
 	buf := new(bytes.Buffer)
